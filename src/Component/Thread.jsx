@@ -1,14 +1,33 @@
 import React, {useState,useEffect} from 'react'
 import { MoreHorizontal,Heart,Repeat,Send,MessageCircle } from 'react-feather'
+import {functions} from '../appwriteConfig'
 
 
 function Thread({thread}) {
 
     const [loading, setLoading] = useState(true)
+    const [owner, setOwner] = useState(null)
 
     useEffect(()=>{
-        setLoading(false)
+        getUserInfo()
+        
     },[])
+
+    const getUserInfo = async () =>{
+
+        const payload = {
+            "owner_id":thread.owner_id
+        }
+
+        const response = await functions.createExecution(
+            '64aab29648f6d2e2db1c',
+            JSON.stringify(payload)
+            )
+        const userData = JSON.parse(response.response)
+        console.log('GET USER REP',userData);
+        setOwner(userData)
+        setLoading(false)
+    }
 
     if(loading) return
 
@@ -16,7 +35,7 @@ function Thread({thread}) {
     <div className='flex p-4'>
     <img 
         className='w-10 h-10 rounded-full object-fill'
-        src='https://media.licdn.com/dms/image/D4D03AQGH8gz_Z-K1Fg/profile-displayphoto-shrink_200_200/0/1686463229231?e=1694044800&v=beta&t=sipAvjqCRTSl5Hy-8QPr8BCciyTTKmcWc9Mb0SwAmWM'
+        src={owner.profile_pic}
         alt='Profile Pic'
     />
 
@@ -24,9 +43,9 @@ function Thread({thread}) {
     <div className="w-full  border-b border-[rgba(97,97,97,1)] px-2 pb-4">
             {/*Thread Header */}
             <div className=" flex justify-between gap-2 w-full ">
-                <strong>Tazeem</strong>
+                <strong>{owner.name}</strong>
                 <div className="flex justify-between gap-2">
-                    <p className='text-[rgba(97,97,97,1)]'>3hr ago</p>
+                    <p className='text-[rgba(97,97,97,1)]'>{thread.$createdAt}</p>
                     <MoreHorizontal/>
                 </div>
             </div>
