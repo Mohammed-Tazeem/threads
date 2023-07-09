@@ -1,8 +1,17 @@
-import React from 'react'
+import React, {useState,useEffect} from 'react'
 import { MoreHorizontal,Heart,Repeat,Send,MessageCircle } from 'react-feather'
 
 
-function Thread({props}) {
+function Thread({thread}) {
+
+    const [loading, setLoading] = useState(true)
+
+    useEffect(()=>{
+        setLoading(false)
+    },[])
+
+    if(loading) return
+
   return (
     <div className='flex p-4'>
     <img 
@@ -26,7 +35,7 @@ function Thread({props}) {
 
             <div className="py-4">
                 <span>
-                It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+                    {thread.body}
                 </span>
             </div>
 
