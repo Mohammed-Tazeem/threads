@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useRef} from 'react'
 import Thread from '../Component/Thread'
 import { database,DEV_DB_ID, COLLECTION_ID_THREADS } from '../appwriteConfig'
 import { Query,ID } from 'appwrite'
@@ -8,6 +8,8 @@ function Feed() {
     const [threads, setThreads] = useState([])
     const [threadbody,setThreadbody] = useState('') 
     const [threadImg, setThreadImg]  = useState(null)
+
+    const fileRef = useRef(null)
 
     useEffect(()=>{
         getThreads()
@@ -51,6 +53,17 @@ function Feed() {
     }
 
     const handleClick = async (e)=>{
+        fileRef.current.click()
+
+    }
+
+    const handleFileChange = async (e) =>{
+        const fileObj  = e.target.files && e.target.files[0];
+        console.log('fileObj',fileObj);
+
+        if (!fileObj){
+            return
+        }
 
     }
 
@@ -69,6 +82,12 @@ function Feed() {
                 className=' rounded-lg p-4 w-full bg-[rgba(28,29,29,1)]'
                 >
                 </textarea>
+                <input
+                 type='file'
+                 ref={fileRef}
+                 style={{display:"none"}}
+                 onChange={handleFileChange}
+                 />
                 <div className='flex justify-between items-center border-y border-[rgba(49,49,50,1)] py-2'>
                     <Image className='cursor-pointer' size={24} onClick={handleClick}/>
                     <input className='bg-white text-black text-sm font-bold py-2 px-4 rounded border border-gray-300 shadow' type='submit' value='Post'/>
