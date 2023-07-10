@@ -22,8 +22,10 @@ function Feed() {
                 Query.orderDesc('$createdAt')
             ]
             )
-        console.log('response',response)
+        //console.log('response',response)
         setThreads(response.documents)
+
+    
 
     }
 
@@ -51,7 +53,7 @@ function Feed() {
   return (
     <div className='container mx-auto max-w-[600px]'>
 
-        <div className=" p-4 ">
+        <div className=" p-4">
             <form onSubmit={handleThreadSubmit}>
                 <textarea
                 
@@ -74,7 +76,7 @@ function Feed() {
 
         {
             threads.map(thread =>(
-                <Thread key={thread.$id} thread={thread}/>
+                <Thread key={thread.$id} thread={thread} setThreads={setThreads}/>
             ))
            
 

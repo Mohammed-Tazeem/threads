@@ -1,13 +1,13 @@
 import React, {useState,useEffect} from 'react'
-import { MoreHorizontal,Heart,Repeat,Send,MessageCircle } from 'react-feather'
-import {functions} from '../appwriteConfig'
+import { MoreHorizontal,Heart,Repeat,Send,MessageCircle,Trash2 } from 'react-feather'
+import {functions,database} from '../appwriteConfig'
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en.json'
 import ReactTimeAgo from 'react-time-ago'
 
 TimeAgo.addDefaultLocale(en)
 
-function Thread({thread}) {
+function Thread({thread,setThreads}) {
 
     const [loading, setLoading] = useState(true)
     const [owner, setOwner] = useState(null)
@@ -28,9 +28,20 @@ function Thread({thread}) {
             JSON.stringify(payload)
             )
         const userData = JSON.parse(response.response)
-        console.log('GET USER REP',userData);
+        //console.log('GET USER REP',userData);
         setOwner(userData)
         setLoading(false)
+    }
+
+    const handleDelete = async () =>{
+        database.deleteDocument(
+            '64aa8ecc6a139c22920c',
+            '64aa8f1c21b3f520ab97',
+            thread.$id
+        )
+        
+        console.log('Thread was Deleted')
+        setThreads(prevState =>prevState.filter( item => item.$id !==thread.$id))
     }
 
     if(loading) return
@@ -48,21 +59,20 @@ function Thread({thread}) {
             {/*Thread Header */}
             <div className=" flex justify-between gap-2 w-full ">
                 <strong>{owner.name}</strong>
-                <div className="flex justify-between gap-2">
-                    <p className='text-[rgba(97,97,97,1)]'>
+                <div className="flex justify-between gap-2 items-center cursor-pointer">
+                    <p className='text-[rgba(97,97,97,1)] '>
                     <ReactTimeAgo date={new Date(thread.$createdAt).getTime() } locale="en-US"/>    
-                        
                     </p>
-                    <MoreHorizontal/>
+                    <Trash2 size={18} onClick={handleDelete}/>
                 </div>
             </div>
 
             {/*Thread Body */}
 
-            <div className="py-4">
-                <span>
+            <div className="py-4" style={{whiteSpace:"pre-wrap"}}>
+                
                     {thread.body}
-                </span>
+                
                 {thread.image && (
                     <img className='object-cover border border-[rgba(49,49,50,1)] rounded-md' src={thread.image} />
                 )}
