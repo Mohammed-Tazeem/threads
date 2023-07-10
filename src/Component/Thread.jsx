@@ -63,6 +63,9 @@ function Thread({thread}) {
                 <span>
                     {thread.body}
                 </span>
+                {thread.image && (
+                    <img className='object-cover border border-[rgba(49,49,50,1)] rounded-md' src={thread.image} />
+                )}
             </div>
 
             {/*Thread Icons */}

@@ -1,13 +1,13 @@
 import React,{useState,useEffect} from 'react'
 import Thread from '../Component/Thread'
 import { database,DEV_DB_ID, COLLECTION_ID_THREADS } from '../appwriteConfig'
-import { Query } from 'appwrite'
-import { Image, MoreHorizontal } from 'react-feather'
+import { Query,ID } from 'appwrite'
+import { Image } from 'react-feather'
 
 function Feed() {
     const [threads, setThreads] = useState([])
-
     const [threadbody,setThreadbody] = useState('') 
+    const [threadImg, setThreadImg]  = useState(null)
 
     useEffect(()=>{
         getThreads()
@@ -27,11 +27,32 @@ function Feed() {
 
     }
 
+    const handleThreadSubmit = async (e) => {
+        e.preventDefault()
+
+        const payload  = {
+            "owner_id":"64aa8ff5902b755c1ee4",
+            "body":threadbody,
+            "image": threadImg
+        }
+
+        const response  = await database.createDocument(
+            '64aa8ecc6a139c22920c',
+            '64aa8f1c21b3f520ab97',
+            ID.unique(),
+            payload
+        )
+
+        //console.log('RESPONSE',response);
+        setThreads(prevState => [response, ...prevState] )
+        setThreadbody('')
+    }
+
   return (
     <div className='container mx-auto max-w-[600px]'>
 
         <div className=" p-4 ">
-            <form action="">
+            <form onSubmit={handleThreadSubmit}>
                 <textarea
                 
                 required
