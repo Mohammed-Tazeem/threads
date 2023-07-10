@@ -7,6 +7,7 @@ const client = new Client();
 //export const PROJECT_ID = import.meta.env.VITE_PROJECT_ID
 //export const DEV_DB_ID = import.meta.env.VITE_DB_ID
 //export const COLLECTION_ID_THREADS = import.meta.env.VITE_COLLECTION_ID_THREADS
+//64ac1b91e9afb70b93d1
 
 client
     .setEndpoint('https://cloud.appwrite.io/v1')

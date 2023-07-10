@@ -50,6 +50,10 @@ function Feed() {
         setThreadbody('')
     }
 
+    const handleClick = async (e)=>{
+
+    }
+
   return (
     <div className='container mx-auto max-w-[600px]'>
 
@@ -65,8 +69,8 @@ function Feed() {
                 className=' rounded-lg p-4 w-full bg-[rgba(28,29,29,1)]'
                 >
                 </textarea>
-                <div className='flex justify-between items-center'>
-                    <Image size={24}/>
+                <div className='flex justify-between items-center border-y border-[rgba(49,49,50,1)] py-2'>
+                    <Image className='cursor-pointer' size={24} onClick={handleClick}/>
                     <input className='bg-white text-black text-sm font-bold py-2 px-4 rounded border border-gray-300 shadow' type='submit' value='Post'/>
                 </div>
 
