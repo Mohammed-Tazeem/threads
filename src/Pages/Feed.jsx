@@ -1,8 +1,7 @@
 import React,{useState,useEffect} from 'react'
-
 import Thread from '../Component/Thread'
-
 import { database,DEV_DB_ID, COLLECTION_ID_THREADS } from '../appwriteConfig'
+import { Query } from 'appwrite'
 
 function Feed() {
     const [threads, setThreads] = useState([])
@@ -13,7 +12,13 @@ function Feed() {
 
     const getThreads = async () =>{
 
-        const response = await database.listDocuments('64aa8ecc6a139c22920c','64aa8f1c21b3f520ab97')
+        const response = await database.listDocuments(
+            '64aa8ecc6a139c22920c',
+            '64aa8f1c21b3f520ab97',
+            [
+                Query.orderDesc('$createdAt')
+            ]
+            )
         console.log('response',response)
         setThreads(response.documents)
 

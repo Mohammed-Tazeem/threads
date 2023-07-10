@@ -1,7 +1,11 @@
 import React, {useState,useEffect} from 'react'
 import { MoreHorizontal,Heart,Repeat,Send,MessageCircle } from 'react-feather'
 import {functions} from '../appwriteConfig'
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en.json'
+import ReactTimeAgo from 'react-time-ago'
 
+TimeAgo.addDefaultLocale(en)
 
 function Thread({thread}) {
 
@@ -45,7 +49,10 @@ function Thread({thread}) {
             <div className=" flex justify-between gap-2 w-full ">
                 <strong>{owner.name}</strong>
                 <div className="flex justify-between gap-2">
-                    <p className='text-[rgba(97,97,97,1)]'>{thread.$createdAt}</p>
+                    <p className='text-[rgba(97,97,97,1)]'>
+                    <ReactTimeAgo date={new Date(thread.$createdAt).getTime() } locale="en-US"/>    
+                        
+                    </p>
                     <MoreHorizontal/>
                 </div>
             </div>
