@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import { MoreHorizontal,Heart,Repeat,Send,MessageCircle,Trash2 } from 'react-feather'
+import {Heart,Repeat,Send,MessageCircle,Trash2 } from 'react-feather'
 import {functions,database} from '../appwriteConfig'
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en.json'
@@ -11,6 +11,8 @@ function Thread({thread,setThreads}) {
 
     const [loading, setLoading] = useState(true)
     const [owner, setOwner] = useState(null)
+    const [threadInstance,setThreadInstance] = useState(thread)
+    const currentUserId = "64aa8ff5902b755c1ee4"
 
     useEffect(()=>{
         getUserInfo()
@@ -39,9 +41,35 @@ function Thread({thread,setThreads}) {
             '64aa8f1c21b3f520ab97',
             thread.$id
         )
-        
+
         console.log('Thread was Deleted')
         setThreads(prevState =>prevState.filter( item => item.$id !==thread.$id))
+    }
+
+    const toggleLike = async ()=>{
+        const users_who_liked = thread.users_who_liked
+        console.log(thread.users_who_liked)
+        
+        if(users_who_liked.includes(currentUserId)){
+            const index = users_who_liked.indexOf(currentUserId)
+            users_who_liked.splice(index,1)
+        }else{
+            users_who_liked.push(currentUserId)
+        }
+
+        const payload = {
+            'users_who_liked':users_who_liked,
+            'likes':users_who_liked.length
+        }
+
+        const response = await database.updateDocument(
+            '64aa8ecc6a139c22920c',
+            '64aa8f1c21b3f520ab97',
+            thread.$id,
+            payload
+        )
+
+        setThreadInstance(response)
     }
 
     if(loading) return
@@ -80,8 +108,13 @@ function Thread({thread,setThreads}) {
 
             {/*Thread Icons */}
             <div className=" flex flex-row gap-4 py-4">
-                <Heart size={22}/>
-                <MessageCircle size={22} />
+                <Heart 
+                onClick={toggleLike} 
+                className='cursor-pointer' 
+                size={22}
+                color={threadInstance.users_who_liked.includes(currentUserId) ? '#ff0000' :'#fff' }
+                />
+                <MessageCircle size={22} /> 
                 <Repeat size={22} />
                 <Send size={22} />
 
@@ -91,7 +124,7 @@ function Thread({thread,setThreads}) {
             <div className="flex gap-4">
                 <p className='text-[rgba(97,97,97,1)]'>Replies 16</p>
                 <p>.</p>
-                <p className='text-[rgba(97,97,97,1)]'> 87 Likes</p>
+                <p className='text-[rgba(97,97,97,1)]'> {threadInstance.likes} Likes</p>
             </div>
         
     </div>
