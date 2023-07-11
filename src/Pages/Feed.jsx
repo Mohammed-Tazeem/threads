@@ -1,6 +1,6 @@
 import React,{useState,useEffect,useRef} from 'react'
 import Thread from '../Component/Thread'
-import { database,DEV_DB_ID, COLLECTION_ID_THREADS } from '../appwriteConfig'
+import { database,DEV_DB_ID, COLLECTION_ID_THREADS,storage } from '../appwriteConfig'
 import { Query,ID } from 'appwrite'
 import { Image } from 'react-feather'
 
@@ -50,6 +50,7 @@ function Feed() {
         //console.log('RESPONSE',response);
         setThreads(prevState => [response, ...prevState] )
         setThreadbody('')
+        setThreadImg(null)
     }
 
     const handleClick = async (e)=>{
@@ -59,13 +60,26 @@ function Feed() {
 
     const handleFileChange = async (e) =>{
         const fileObj  = e.target.files && e.target.files[0];
-        console.log('fileObj',fileObj);
+        //console.log('fileObj',fileObj);
 
         if (!fileObj){
             return
         }
 
+        const response = await storage.createFile(
+            '64ac1b91e9afb70b93d1',
+             ID.unique(),
+             fileObj
+              );
+
+        //console.log('Upload Successfull',promise)
+
+        const imagePreview = storage.getFilePreview('64ac1b91e9afb70b93d1', response.$id);
+        setThreadImg(imagePreview.href)
+        
     }
+
+    
 
   return (
     <div className='container mx-auto max-w-[600px]'>
@@ -82,15 +96,16 @@ function Feed() {
                 className=' rounded-lg p-4 w-full bg-[rgba(28,29,29,1)]'
                 >
                 </textarea>
+                <img src={threadImg} />
                 <input
                  type='file'
                  ref={fileRef}
                  style={{display:"none"}}
                  onChange={handleFileChange}
                  />
-                <div className='flex justify-between items-center border-y border-[rgba(49,49,50,1)] py-2'>
+                <div className='flex justify-between items-center border-y border-[rgba(49,49,50,1)] py-2 '>
                     <Image className='cursor-pointer' size={24} onClick={handleClick}/>
-                    <input className='bg-white text-black text-sm font-bold py-2 px-4 rounded border border-gray-300 shadow' type='submit' value='Post'/>
+                    <input className='bg-white text-black text-sm font-bold py-2 px-4 rounded border border-gray-300 shadow cursor-pointer' type='submit' value='Post'/>
                 </div>
 
                 
