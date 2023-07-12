@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 
 const AuthContext = createContext()
 
@@ -11,7 +11,14 @@ export const AuthProvider = ({ children }) => {
         setLoading(false)
     },[])
 
+    const loginUser = async(userInfo) =>{
+        console.log('USER INFO',userInfo);
+
+    }
+
     const contextData = {
+        user,
+        loginUser
     }
 
     return (
@@ -20,6 +27,8 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     )
 }
+
+export const useAuth = () => {return useContext(AuthContext)}
 
 
 export default AuthContext
