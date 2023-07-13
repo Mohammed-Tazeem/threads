@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
 
             const accounDetails = await account.get()
             setUser(accounDetails)
-            navigate('/')
+            
             //console.log(response);
 
         }catch(error){
@@ -51,6 +51,7 @@ export const AuthProvider = ({ children }) => {
     const logOutUser = async ()=>{
         account.deleteSession('current')
         navigate('/login')
+        setUser(null)
     }
 
     const contextData = {

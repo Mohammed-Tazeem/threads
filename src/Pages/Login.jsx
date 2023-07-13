@@ -1,11 +1,19 @@
-import React, {useRef} from 'react'
-import { Link } from 'react-router-dom'
+import React, {useEffect, useRef} from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 function Login() {
     const loginForm  = useRef(null)
 
-    const {loginUser} = useAuth()
+    const {loginUser,user} = useAuth()
+
+    const navigate  =useNavigate()
+
+    useEffect(()=>{
+        if(user){
+            navigate('/')
+        }
+    },[])
 
     const handleSubmit =(e) =>{
         e.preventDefault()
