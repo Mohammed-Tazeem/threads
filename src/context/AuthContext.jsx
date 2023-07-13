@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { account } from '../appwriteConfig'
+import { Link,useNavigate } from 'react-router-dom'
 
 const AuthContext = createContext()
 
@@ -7,18 +8,38 @@ export const AuthProvider = ({ children }) => {
 
     const [loading, setLoading] = useState(true)
     const [user, setUser] = useState(null)
+
+    const navigate = useNavigate()
+
+
     
     useEffect(()=>{
-        setLoading(false)
+        getUserOnLoad()
     },[])
+
+
+    const getUserOnLoad = async () =>{
+        try{
+
+            let accounDetails  =await account.get()
+            setUser(accounDetails)
+
+        }catch(error){
+
+        }
+        setLoading(false)
+    }
 
     const loginUser = async(userInfo) =>{
         console.log('USER INFO',userInfo);
 
         try{
-            let response  = await account.createEmailSession(userInfo.email,userInfo.password)
+            const response  = await account.createEmailSession(userInfo.email,userInfo.password)
 
-            console.log(response);
+            const accounDetails = await account.get()
+            setUser(accounDetails)
+            navigate('/')
+            //console.log(response);
 
         }catch(error){
             console.log(error);
@@ -27,9 +48,15 @@ export const AuthProvider = ({ children }) => {
 
     }
 
+    const logOutUser = async ()=>{
+        account.deleteSession('current')
+        navigate('/login')
+    }
+
     const contextData = {
         user,
-        loginUser
+        loginUser,
+        logOutUser
     }
 
     return (
