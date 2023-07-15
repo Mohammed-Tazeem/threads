@@ -28,10 +28,14 @@ function Thread({thread,setThreads}) {
         }
 
         const response = await functions.createExecution(
-            '64aab29648f6d2e2db1c',
+            '64aab29648f6d2e2db1c', //Function I,
             JSON.stringify(payload)
-            )
+            );
+
+        const profile  = await database.getDocument('64aa8ecc6a139c22920c', '64b009a9d7bbf14feed4', thread.owner_id);
+        console.log('Profile',profile);
         const userData = JSON.parse(response.response)
+        userData['profile_pic'] = profile.profile_pic
         //console.log('GET USER REP',userData);
         setOwner(userData)
         setLoading(false)
@@ -80,7 +84,7 @@ function Thread({thread,setThreads}) {
     <div className='flex p-4'>
     <img 
         className='w-10 h-10 rounded-full object-fill'
-        src={owner.profile.profile_pic}
+        src={owner.profile_pic}
         alt='Profile Pic'
     />
 
