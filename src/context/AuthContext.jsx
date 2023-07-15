@@ -22,9 +22,16 @@ export const AuthProvider = ({ children }) => {
     const getUserOnLoad = async () =>{
         try{
 
-            let accounDetails  =await account.get()
-            console.log(accounDetails);
-            setUser(accounDetails)
+            let accountDetails  =await account.get();
+            
+            const profile  = await database.getDocument('64aa8ecc6a139c22920c', '64b009a9d7bbf14feed4', accountDetails.$id);
+            console.log('Profile',profile);
+
+            accountDetails['profile'] = profile
+            console.log(accountDetails);
+
+            
+            setUser(accountDetails)
 
         }catch(error){
 
@@ -38,8 +45,8 @@ export const AuthProvider = ({ children }) => {
         try{
             const response  = await account.createEmailSession(userInfo.email,userInfo.password)
 
-            const accounDetails = await account.get()
-            setUser(accounDetails)
+            const accountDetails = await account.get()
+            setUser(accountDetails)
             
             //console.log(response);
 

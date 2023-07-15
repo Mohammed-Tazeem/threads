@@ -9,7 +9,7 @@ function Login() {
 
     const navigate  =useNavigate()
 
-    useEffect(()=>{
+    useEffect(( )=>{
         if(user){
             navigate('/')
         }
@@ -56,7 +56,10 @@ function Login() {
                 </div>
             </form>
             <p >Don't have account, Go to <Link to='/register' className='text-purple-600'>Register</Link></p>
+            <Link to='/'>Home</Link>
           </div>
+
+          
       
   )
 }
