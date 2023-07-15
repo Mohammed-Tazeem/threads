@@ -4,6 +4,7 @@ import {functions,database} from '../appwriteConfig'
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en.json'
 import ReactTimeAgo from 'react-time-ago'
+import { useAuth } from '../context/AuthContext'
 
 TimeAgo.addDefaultLocale(en)
 
@@ -12,7 +13,8 @@ function Thread({thread,setThreads}) {
     const [loading, setLoading] = useState(true)
     const [owner, setOwner] = useState(null)
     const [threadInstance,setThreadInstance] = useState(thread)
-    const currentUserId = "64aa8ff5902b755c1ee4"
+
+    const {user} = useAuth()
 
     useEffect(()=>{
         getUserInfo()
@@ -50,11 +52,11 @@ function Thread({thread,setThreads}) {
         const users_who_liked = thread.users_who_liked
         console.log(thread.users_who_liked)
         
-        if(users_who_liked.includes(currentUserId)){
-            const index = users_who_liked.indexOf(currentUserId)
+        if(users_who_liked.includes(user.$id)){
+            const index = users_who_liked.indexOf(user.$id)
             users_who_liked.splice(index,1)
         }else{
-            users_who_liked.push(currentUserId)
+            users_who_liked.push(user.$id)
         }
 
         const payload = {
@@ -78,7 +80,7 @@ function Thread({thread,setThreads}) {
     <div className='flex p-4'>
     <img 
         className='w-10 h-10 rounded-full object-fill'
-        src={owner.profile_pic}
+        src={owner.profile.profile_pic}
         alt='Profile Pic'
     />
 
@@ -112,7 +114,7 @@ function Thread({thread,setThreads}) {
                 onClick={toggleLike} 
                 className='cursor-pointer' 
                 size={22}
-                color={threadInstance.users_who_liked.includes(currentUserId) ? '#ff0000' :'#fff' }
+                color={threadInstance.users_who_liked.includes(user.$id) ? '#ff0000' :'#fff' }
                 />
                 <MessageCircle size={22} /> 
                 <Repeat size={22} />
