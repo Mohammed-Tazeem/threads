@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { database } from '../appwriteConfig'
 import { Query } from 'appwrite'
 
 function Profile() {
 
     const [threads, setThreads] = useState([])
+    const params = useParams()
 
     useEffect(()=>{
-        getThreads()
+       // getThreads()
+       console.log('params',params);
 
     },[])
 
-    const getThreads = async () =>{
+    /*const getThreads = async () =>{
 
         const response = await database.listDocuments(
             '64aa8ecc6a139c22920c',
@@ -24,7 +27,7 @@ function Profile() {
         console.log('response',response)
         setThreads(response.documents)
 
-    }
+    }*/
 
   return (
     <div>Profile</div>

@@ -25,10 +25,10 @@ export const AuthProvider = ({ children }) => {
             let accountDetails  =await account.get();
             
             const profile  = await database.getDocument('64aa8ecc6a139c22920c', '64b009a9d7bbf14feed4', accountDetails.$id);
-            console.log('Profile',profile);
+            //console.log('Profile',profile);
 
             accountDetails['profile'] = profile
-            console.log(accountDetails);
+            //console.log(accountDetails);
 
             
             setUser(accountDetails)

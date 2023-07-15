@@ -5,6 +5,7 @@ import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en.json'
 import ReactTimeAgo from 'react-time-ago'
 import { useAuth } from '../context/AuthContext'
+import { Link } from 'react-router-dom'
 
 TimeAgo.addDefaultLocale(en)
 
@@ -33,7 +34,7 @@ function Thread({thread,setThreads}) {
             );
 
         const profile  = await database.getDocument('64aa8ecc6a139c22920c', '64b009a9d7bbf14feed4', thread.owner_id);
-        console.log('Profile',profile);
+       // console.log('Profile',profile);
         const userData = JSON.parse(response.response)
         userData['profile_pic'] = profile.profile_pic
         //console.log('GET USER REP',userData);
@@ -82,11 +83,13 @@ function Thread({thread,setThreads}) {
 
   return (
     <div className='flex p-4'>
-    <img 
-        className='w-10 h-10 rounded-full object-fill'
-        src={owner.profile_pic}
-        alt='Profile Pic'
-    />
+        <Link to={`/profile/${owner.$id}`}>
+        <img 
+            className='w-10 h-10 rounded-full object-fill'
+            src={owner.profile_pic}
+            alt='Profile Pic'
+        />
+        </Link>
 
     
     <div className="w-full  border-b border-[rgba(97,97,97,1)] px-2 pb-4">

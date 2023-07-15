@@ -30,8 +30,6 @@ function Feed() {
         //console.log('response',response)
         setThreads(response.documents)
 
-    
-
     }
 
     const handleThreadSubmit = async (e) => {

@@ -3,6 +3,7 @@ import Feed from './Pages/Feed';
 import { AuthProvider } from './context/AuthContext'
 import Login from './Pages/Login';
 import Header from './Component/Header';
+import Profile from './Pages/Profile';
 function App() {
   return (
 
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Feed />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/profile/:id' element={<Profile />} />
         </Routes>
       </AuthProvider>
     </Router>
