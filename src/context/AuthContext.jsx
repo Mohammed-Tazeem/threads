@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { account } from '../appwriteConfig'
+import { account,database } from '../appwriteConfig'
 import { Link,useNavigate } from 'react-router-dom'
 
 const AuthContext = createContext()
@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
 
     const [loading, setLoading] = useState(true)
     const [user, setUser] = useState(null)
+    const [userProfilePic, setUserProfilePic] = useState(null)
 
     const navigate = useNavigate()
 
@@ -22,6 +23,7 @@ export const AuthProvider = ({ children }) => {
         try{
 
             let accounDetails  =await account.get()
+            console.log(accounDetails);
             setUser(accounDetails)
 
         }catch(error){
