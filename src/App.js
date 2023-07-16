@@ -13,7 +13,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Feed />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/profile/:id' element={<Profile />} />
+          <Route path='/profile/:username' element={<Profile />} />
         </Routes>
       </AuthProvider>
     </Router>

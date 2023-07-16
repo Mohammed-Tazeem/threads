@@ -10,24 +10,25 @@ function Profile() {
     const {user} = useAuth()
     const [loading, setLoading] = useState(true)
     const [threads, setThreads] = useState([])
-    const {id} = useParams()
+    const {username} = useParams()
     const [userProfile, setUserProfile] = useState(null)
 
     useEffect(()=>{
-       getThreads()
        getProfile()
+       //getThreads()
+       
        //console.log('params',params);
 
     },[])
 
-    const getThreads = async () =>{
+    const getThreads = async (owner_id) =>{
 
         const response = await database.listDocuments(
             '64aa8ecc6a139c22920c',
             '64aa8f1c21b3f520ab97',
             [
                 Query.orderDesc('$createdAt'),
-                Query.equal('owner_id', id)
+                Query.equal('owner_id', owner_id)
             ]
             )
         console.log('response',response)
@@ -37,10 +38,18 @@ function Profile() {
     }
 
     const getProfile = async () =>{
-        const data  = await database.getDocument('64aa8ecc6a139c22920c', '64b009a9d7bbf14feed4', id);
-        console.log('data',data);
-        setUserProfile(data)
-        console.log('userProfile',userProfile);
+        const data  = await database.listDocuments(
+            '64aa8ecc6a139c22920c',
+             '64b009a9d7bbf14feed4',
+        [
+        Query.equal('username',username),
+        Query.limit(1)
+        ]
+        );
+        console.log('data',data.documents[0]);
+        getThreads(data.documents[0].$id)
+        setUserProfile(data.documents[0])
+       // console.log('userProfile',userProfile);
         setLoading(false)
     }
 

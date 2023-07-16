@@ -8,15 +8,20 @@ function Header() {
 
     
   return (
-    <div>
+    <div className='flex items-center justify-between py-4 px-4 '>
+        <Link to='/'><strong className='text-6xl'>@</strong></Link>
+        
         {
             user ? (
                 
-                <div className="flex items-center justify-center gap-2 py-2">
+                <div className="flex items-center justify-center gap-4">
+
+                    <Link to={`/profile/${user.profile.$username}`}>
                 <img
                  src={user.profile.profile_pic}
                  className='h-10 w-10  rounded-full object-cover'/>
-                <strong>Hello {user.name}</strong> 
+                 </Link>
+                <strong className='text-sm'>Hello {user.name}</strong> 
                 <button
                  className='bg-white text-black text-sm font-bold py-2 px-4 rounded border border-gray-300 shadow cursor-pointer'
                  onClick={logOutUser}

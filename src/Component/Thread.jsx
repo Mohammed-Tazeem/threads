@@ -37,6 +37,7 @@ function Thread({thread,setThreads}) {
        // console.log('Profile',profile);
         const userData = JSON.parse(response.response)
         userData['profile_pic'] = profile.profile_pic
+        userData['username'] = profile.username
         //console.log('GET USER REP',userData);
         setOwner(userData)
         setLoading(false)
@@ -83,7 +84,7 @@ function Thread({thread,setThreads}) {
 
   return (
     <div className='flex p-4'>
-        <Link to={`/profile/${owner.$id}`}>
+        <Link to={`/profile/${owner.username}`}>
         <img 
             className='w-10 h-10 rounded-full object-fill'
             src={owner.profile_pic}
