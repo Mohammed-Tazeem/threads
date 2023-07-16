@@ -20,15 +20,47 @@ function Feed() {
 
     const getThreads = async () =>{
 
-        const response = await database.listDocuments(
+        const following  =user.profile.following
+
+        let feedposts = []
+
+        for(let i=0; following.length > i; i++){
+            let response = await database.listDocuments(
+                '64aa8ecc6a139c22920c',
+                '64aa8f1c21b3f520ab97',
+                [
+                    Query.orderDesc('$createdAt'),
+                    Query.equal('owner_id',following[i]),
+                    Query.limit(1)
+                ]
+                )
+            
+            feedposts = [...feedposts,...response.documents]
+            
+        }
+        // Add Our Own Post
+        let response = await database.listDocuments(
+            '64aa8ecc6a139c22920c',
+            '64aa8f1c21b3f520ab97',
+            [
+                Query.orderDesc('$createdAt'),
+                Query.equal('owner_id',user.$id),
+                Query.limit(1)
+            ]
+            )
+        feedposts = [...feedposts,...response.documents]
+        console.log('feedposts',feedposts)
+        setThreads(feedposts) 
+
+       /* const response = await database.listDocuments(
             '64aa8ecc6a139c22920c',
             '64aa8f1c21b3f520ab97',
             [
                 Query.orderDesc('$createdAt')
             ]
             )
-        //console.log('response',response)
-        setThreads(response.documents)
+        //console.log('response',response)*/
+        
 
     }
 
