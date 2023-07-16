@@ -16,7 +16,7 @@ function Header() {
                 
                 <div className="flex items-center justify-center gap-4">
 
-                    <Link to={`/profile/${user.profile.$username}`}>
+                    <Link to={`/profile/${user.profile.username}`}>
                 <img
                  src={user.profile.profile_pic}
                  className='h-10 w-10  rounded-full object-cover'/>

@@ -143,12 +143,12 @@ function Profile() {
             (<button
                 onClick={toggleFollow}
                 className='bg-white text-black text-sm font-bold py-2 px-4 my-1  rounded-full border border-gray-300 shadow cursor-pointer'>
-                    Follow
+                    Following
                 </button>) :
             (<button
                 onClick={toggleFollow}
                 className=' text-white text-sm font-bold py-2 px-4 my-1  rounded-full border border-white shadow cursor-pointer'>
-                    Following
+                    Follow
                 </button>)
             }
             
