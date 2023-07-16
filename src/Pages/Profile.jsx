@@ -60,12 +60,12 @@ function Profile() {
             </div>
         </div>  
 
-        <div>
+        <div className='flex flex-col justify-between '>
             <img 
             src={userProfile.profile_pic}
             className='h-24 w-24 rounded-full object-cover'
             />
-            <button className=''>
+            <button className='bg-white text-black text-sm font-bold py-2 px-4 my-1  rounded-full border border-gray-300 shadow cursor-pointer'>
                 Follow
             </button>
            
