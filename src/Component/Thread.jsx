@@ -19,7 +19,6 @@ function Thread({thread,setThreads}) {
 
     useEffect(()=>{
         getUserInfo()
-        
     },[])
 
     const getUserInfo = async () =>{
@@ -27,6 +26,8 @@ function Thread({thread,setThreads}) {
         const payload = {
             "owner_id":thread.owner_id
         }
+
+        console.log(thread.owner_id);
 
         const response = await functions.createExecution(
             '64aab29648f6d2e2db1c', //Function I,
@@ -124,7 +125,9 @@ function Thread({thread,setThreads}) {
                 size={22}
                 color={threadInstance.users_who_liked.includes(user.$id) ? '#ff0000' :'#fff' }
                 />
-                <MessageCircle size={22} /> 
+                <Link to={`/thread/${thread.$id}`}>
+                    <MessageCircle size={22} color={"#fff"} />
+                </Link>
                 <Repeat size={22} />
                 <Send size={22} />
 
